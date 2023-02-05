@@ -10,9 +10,24 @@ function initPage() {
     var currentHumi = document.getElementById("humidity");
     var history = document.getElementById("history");
     }
-
+    var lat;
+    var lon;
     function getWeather(cityName){
-        fetch("https://api.openweathermap.org/data/2.5/forecast?lat=47.608013&lon=-122.335167&appid="+ key)
+        fetch("http://api.openweathermap.org/geo/1.0/direct?q=" + cityName +"&limit=1&appid=" +key)
+        .then(function(response){
+            return response.json();
+            console.log(response);
+            
+        })
+        .then(function(data){
+            console.log(data);
+            var lat = data[0].lat;
+            var lon = data[0].lon;
+        })
+        return lat;
+        return lon;
+        let foreCastURL="https://api.openweathermap.org/data/2.5/forecast?lat="+lat+"&lon="+lon+"&appid=" + key;
+        fetch(foreCastURL)
         .then(function(response){
             return response.json();
             console.log(response);
@@ -22,4 +37,6 @@ function initPage() {
         })
     }
 
-    getWeather();
+  
+    
+   getWeather("Kirkland");
