@@ -17,7 +17,7 @@ var lat;
 var lon;
 // using OpenWeatherMap Geomapping API to return the lat and lon values for a given city
     function getCoord(cityName){
-        fetch("http://api.openweathermap.org/geo/1.0/direct?q=" + cityName +"&limit=1&appid=" +key)
+        fetch("https://api.openweathermap.org/geo/1.0/direct?q=" + cityName +"&limit=1&appid=" +key)
         .then(function(response){
             return response.json();
             console.log(response);
