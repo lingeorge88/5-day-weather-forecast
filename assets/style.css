@@ -10,3 +10,7 @@
 .forecast-date{
     font-size: 18px;
 }
+
+.form-control:hover{
+    cursor: pointer;
+}

@@ -7,13 +7,14 @@ const key = "0a4b5f5b92215551fbb579c3047f38a8";
     var currentTemp = document.getElementById("Temperature");
     var currentWind = document.getElementById("windSpeed");
     var currentHumi = document.getElementById("humidity");
-    var history = document.getElementById("history");
+    var history1 = document.getElementById("history");
     var currentWeather = document.getElementById("weatherCond");
     var searchHistory = JSON.parse(localStorage.getItem("search"))|| [];
     console.log(searchHistory)
 
 var lat;
 var lon;
+
     function getCoord(cityName){
         fetch("http://api.openweathermap.org/geo/1.0/direct?q=" + cityName +"&limit=1&appid=" +key)
         .then(function(response){
@@ -96,8 +97,15 @@ function fetch5day(){
 searchBtn.addEventListener("click",function(){
     var searchName = inputEl.value;
     getCoord(searchName);
-    searchHistory.push(searchName);
-    localStorage.setItem("search", JSON.stringify(searchHistory));
+    if(!searchHistory.includes(searchName)){
+        searchHistory.push(searchName);
+        localStorage.setItem("search", JSON.stringify(searchHistory));
+    }
+    displaySearchHistory();
+})
+clearEl.addEventListener("click", function(){
+    searchHistory=[];
+    localStorage.clear();
     displaySearchHistory();
 })
 function k2C(K){
@@ -105,16 +113,31 @@ function k2C(K){
 }
 
 function displaySearchHistory(){
-    history.innerHTML="";
-    for (var i = 0; i <searchHistory.length; i++){
+    history1.innerHTML="";
+    searchHistory.forEach(function(currentValue, index){
         var prevSearch = document.createElement("input");
-        prevSearch.setAttribute("readonly", "true");
-        prevSearch.setAttribute("type", "text");
-        prevSearch.setAttribute("class", "form-control d-block bg-dark");
-        prevSearch.setAttribute("value", searchHistory[i]);
-        prevSearch.addEventListener("click", function(){
-            getCoord(prevSearch.value);
+        // <input type="text" readonly class="form-control-plaintext" id="staticEmail" value="email@example.com"></input>
+        prevSearch.setAttribute("type","text");
+        prevSearch.setAttribute("readonly",true);
+        prevSearch.setAttribute("class", "form-control d-block bg-black text-warning");
+        prevSearch.setAttribute("id", "pointer");
+        prevSearch.setAttribute("value", currentValue);
+        // prevSearch.textContent = currentValue;
+        // prevSearch.setAttribute("class", "btn btn-dark text-warning mt-1");
+        // prevSearch.setAttribute("type", "button");
+        // prevSearch.setAttribute("style", "display: block;");
+        prevSearch.addEventListener("click", function() {
+            console.log(index);
+            console.log(currentValue);
+            getCoord(currentValue);
         })
-     history.append(prevSearch);
+        history1.append(prevSearch);
+    })
+}
+function displayLastsearch(){
+    if(searchHistory.length >  0){
+        getCoord(searchHistory[searchHistory.length - 1]);
     }
 }
+displaySearchHistory();
+displayLastsearch();
