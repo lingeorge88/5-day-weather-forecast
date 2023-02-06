@@ -125,7 +125,7 @@ function displaySearchHistory(){
         // <input type="text" readonly class="form-control-plaintext" id="staticEmail" value="email@example.com"></input>
         prevSearch.setAttribute("type","text");
         prevSearch.setAttribute("readonly",true);
-        prevSearch.setAttribute("class", "form-control d-block bg-black text-warning");
+        prevSearch.setAttribute("class", "form-control d-block bg-black text-warning text-center");
         prevSearch.setAttribute("id", "pointer");
         prevSearch.setAttribute("value", currentValue);
        
