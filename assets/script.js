@@ -9,6 +9,8 @@ const key = "0a4b5f5b92215551fbb579c3047f38a8";
     var currentHumi = document.getElementById("humidity");
     var history = document.getElementById("history");
     var currentWeather = document.getElementById("weatherCond");
+    var searchHistory = JSON.parse(localStorage.getItem("search"))|| [];
+    console.log(searchHistory)
 
 var lat;
 var lon;
@@ -94,7 +96,25 @@ function fetch5day(){
 searchBtn.addEventListener("click",function(){
     var searchName = inputEl.value;
     getCoord(searchName);
+    searchHistory.push(searchName);
+    localStorage.setItem("search", JSON.stringify(searchHistory));
+    displaySearchHistory();
 })
 function k2C(K){
     return Math.floor((K - 273.15));
+}
+
+function displaySearchHistory(){
+    history.innerHTML="";
+    for (var i = 0; i <searchHistory.length; i++){
+        var prevSearch = document.createElement("input");
+        prevSearch.setAttribute("readonly", "true");
+        prevSearch.setAttribute("type", "text");
+        prevSearch.setAttribute("class", "form-control d-block bg-dark");
+        prevSearch.setAttribute("value", searchHistory[i]);
+        prevSearch.addEventListener("click", function(){
+            getCoord(prevSearch.value);
+        })
+     history.append(prevSearch);
+    }
 }
